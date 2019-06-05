@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <UserSecretsId>816f1424-cdc4-4fb3-ae0a-170d7034a018</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.4.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.4.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.4.4" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.4.4" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.4.4" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.4.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WithBugs.Bot.Extensions\WithBugs.Bot.Extensions.csproj" />
+  </ItemGroup>
+</Project>
