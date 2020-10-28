@@ -104,8 +104,6 @@ namespace Bot.Dialogs.CarRecognition
                 result = await predictionClient.ClassifyImageAsync(new Guid(CustomVisionOptions.ProjectId), CustomVisionOptions.PublishedName, imageData);
             }
 
-            var isCar = result.Predictions.Any(x => x.TagName.Equals("car", StringComparison.InvariantCultureIgnoreCase) && 
-                                                    x.Probability >= CustomVisionOptions.ProbabilityThreshold);
             var tagName = String.Empty;
 
             foreach (var item in result.Predictions)
@@ -115,37 +113,24 @@ namespace Bot.Dialogs.CarRecognition
                     continue;
                 }
 
-                if (item.TagName.Equals("car", StringComparison.InvariantCultureIgnoreCase))
-                {
-                    continue;
-                }
-
                 tagName = item.TagName;
                 break;
             }
 
-            if (isCar)
+            if (String.IsNullOrEmpty(tagName))
             {
-                if (String.IsNullOrEmpty(tagName))
-                {
-                    sc.Values[KEY_IMAGE_BYTES] = imageBytes;
+                sc.Values[KEY_IMAGE_BYTES] = imageBytes;
 
-                    return await sc.PromptAsync(
-                        nameof(TextPrompt),
-                        new PromptOptions
-                        {
-                            Prompt = MessageFactory.Text($"I'm not sure what it is. Could you tell me the car model?"),
-                        });
-                }
-                else
-                {
-                    await sc.Context.SendActivityAsync($"Wow! Nice {tagName}!");
-                    return await sc.ReplaceDialogAsync(nameof(CarRecognitionDialog), new DialogOptions { IsInLoop = true });
-                }
+                return await sc.PromptAsync(
+                    nameof(TextPrompt),
+                    new PromptOptions
+                    {
+                        Prompt = MessageFactory.Text($"I'm not sure what it is. Could you tell me the car model?"),
+                    });
             }
             else
             {
-                await sc.Context.SendActivityAsync($"It doesn't seem a car. Could you upload a photo of a car?");
+                await sc.Context.SendActivityAsync($"Wow! Nice {tagName}!");
                 return await sc.ReplaceDialogAsync(nameof(CarRecognitionDialog), new DialogOptions { IsInLoop = true });
             }
         }
